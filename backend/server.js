@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
+// Route modules commented out because route files are not present in this workspace
 // import githubRoutes from "./routes/githubRoutes.js";
 // import codeforcesRoutes from "./routes/codeforcesRoutes.js";
 // import scoreRoutes from "./routes/scoreRoutes.js";
