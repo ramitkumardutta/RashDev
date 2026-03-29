@@ -1,8 +1,20 @@
-import express from "express";
-import { getQuestions } from "../controllers/recruiterController.js";
+import { getGithubData } from "../services/githubService.js";
 
-const router = express.Router();
+export const fetchGithub = async (req, res) => {
+  try {
+    const { username } = req.params;
 
-router.post("/", getQuestions);
+    if (!username) {
+      return res.status(400).json({ error: "Username is required" });
+    }
 
-export default router;
+    const data = await getGithubData(username);
+    res.json(data);
+
+  } catch (err) {
+    res.status(500).json({
+      error: "GitHub fetch failed",
+      details: err.message
+    });
+  }
+};

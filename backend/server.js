@@ -1,15 +1,18 @@
+import { errorHandler } from "./middleware/errorHandler.js";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-// Route modules commented out because route files are not present in this workspace
-// import githubRoutes from "./routes/githubRoutes.js";
-// import codeforcesRoutes from "./routes/codeforcesRoutes.js";
-// import scoreRoutes from "./routes/scoreRoutes.js";
-// import aiRoutes from "./routes/aiRoutes.js";
-// import recruiterRoutes from "./routes/recruiterRoutes.js";
-
 dotenv.config();
+
+// Route modules commented out because route files are not present in this workspace
+import githubRoutes from "./routes/githubRoutes.js";
+import codeforcesRoutes from "./routes/codeforcesRoutes.js";
+import scoreRoutes from "./routes/scoreRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
+import recruiterRoutes from "./routes/recruiterRoutes.js";
+
+
 
 const app = express();
 
@@ -17,15 +20,18 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-// app.use("/github", githubRoutes);
-// app.use("/codeforces", codeforcesRoutes);
-// app.use("/score", scoreRoutes);
-// app.use("/ai", aiRoutes);
-// app.use("/recruiter", recruiterRoutes);
+app.use("/github", githubRoutes);
+app.use("/codeforces", codeforcesRoutes);
+app.use("/score", scoreRoutes);
+app.use("/ai", aiRoutes);
+app.use("/recruiter", recruiterRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevProof Backend Running ");
 });
+
+// Error handler (must be registered after routes)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

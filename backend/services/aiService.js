@@ -1,4 +1,12 @@
-import openai from "../config/openai.js";
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import Groq from "groq-sdk";
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 export const generateAdvice = async ({ rating, problems, repos }) => {
   const prompt = `
@@ -15,8 +23,8 @@ Give:
 3. Improvement Plan
 `;
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+  const response = await groq.chat.completions.create({
+    model: "openai/gpt-oss-120b",
     messages: [{ role: "user", content: prompt }],
   });
 
