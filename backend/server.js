@@ -11,6 +11,7 @@ import codeforcesRoutes from "./routes/codeforcesRoutes.js";
 import scoreRoutes from "./routes/scoreRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import recruiterRoutes from "./routes/recruiterRoutes.js";
+import debugRoutes from "./routes/debugRoutes.js";
 
 
 
@@ -24,6 +25,7 @@ app.use("/github", githubRoutes);
 app.use("/codeforces", codeforcesRoutes);
 app.use("/score", scoreRoutes);
 app.use("/ai", aiRoutes);
+app.use("/debug", debugRoutes);
 app.use("/recruiter", recruiterRoutes);
 
 app.get("/", (req, res) => {
