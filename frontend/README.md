@@ -1,16 +1,57 @@
-# React + Vite
+# Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This frontend is a minimal React app powered by Vite. It provides a fast development experience with HMR and a small set of useful scripts.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Prerequisites: Node.js 18+ and npm (or yarn/pnpm).
 
-## React Compiler
+Install dependencies:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+cd frontend
+npm install
+```
 
-## Expanding the ESLint configuration
+Run the dev server (hot reload):
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+npm run dev
+```
+
+Build for production:
+
+```
+npm run build
+```
+
+Preview the production build locally:
+
+```
+npm run preview
+```
+
+## Useful Scripts
+
+- `dev` — Starts Vite dev server.
+- `build` — Produces a production build in `dist/`.
+- `preview` — Serves the production build locally.
+- `lint` — (if present) Runs ESLint.
+
+Check `package.json` in the `frontend` folder for the exact scripts available.
+
+## Project Structure (important files)
+
+- `index.html` — App entry HTML.
+- `src/main.jsx` — React entry point.
+- `src/App.jsx` — Root component.
+- `src/components/` — UI components.
+- `vite.config.js` — Vite configuration.
+
+## Notes
+
+- This project uses Vite for fast builds and React for the UI. If you want TypeScript, consider migrating the template and updating ESLint accordingly.
+- If you want, I can add a short development checklist, CI config, or TypeScript migration steps.
+
+---
+Updated for clarity and developer onboarding.
