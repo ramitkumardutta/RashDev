@@ -18,7 +18,6 @@ export default function RecruiterForm() {
       setResult("");
       setScore(null);
 
-      // prefer file upload; fall back to pasted resume text
       if (!file && !resume.trim()) {
         alert("Please upload a PDF or paste resume text.");
         setLoading(false);
@@ -32,20 +31,31 @@ export default function RecruiterForm() {
       }
 
       let res;
+
       if (file) {
         const formData = new FormData();
         formData.append("resume", file);
         formData.append("githubUsername", github.trim());
         formData.append("codeforcesHandle", cf.trim());
 
-        res = await axios.post("http://localhost:5000/recruiter", formData);
+        res = await axios.post(
+          "http://localhost:5000/recruiter",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
       } else {
-        const payload = {
-          resumeText: resume.trim(),
-          githubUsername: github.trim(),
-          codeforcesHandle: cf.trim()
-        };
-        res = await axios.post("http://localhost:5000/recruiter", payload);
+        res = await axios.post(
+          "http://localhost:5000/recruiter",
+          {
+            resumeText: resume.trim(),
+            githubUsername: github.trim(),
+            codeforcesHandle: cf.trim()
+          }
+        );
       }
 
       setResult(res.data.result);
@@ -53,7 +63,10 @@ export default function RecruiterForm() {
 
     } catch (err) {
       console.error(err);
-      const message = err.response?.data?.details || err.response?.data?.error || err.message;
+      const message =
+        err.response?.data?.details ||
+        err.response?.data?.error ||
+        err.message;
       alert("Error: " + message);
     } finally {
       setLoading(false);
@@ -61,29 +74,48 @@ export default function RecruiterForm() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-xl border border-gray-700 space-y-6">
 
-      <h2 className="text-2xl font-semibold text-purple-400">
-        Recruiter Panel
-      </h2>
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-purple-400">
+          Recruiter Panel
+        </h2>
+        <p className="text-gray-400 text-sm mt-1">
+          Analyze candidates using real coding proof
+        </p>
+      </div>
 
-      {/* 🔥 Resume Text */}
-      {/* Resume upload (preferred) */}
-      <input
-        type="file"
-        accept="application/pdf"
-        className="bg-gray-800 p-2 rounded w-full"
-        onChange={(e) => {
-          setFile(e.target.files[0] || null);
-          // clear pasted resume if file selected
-          if (e.target.files[0]) setResume("");
-        }}
-      />
+      {/* Upload Box */}
+      <div className="border-2 border-dashed border-gray-600 rounded-xl p-5 text-center hover:border-purple-500 transition">
+        <p className="text-gray-300 mb-2">📄 Upload Resume (PDF)</p>
 
-      <div className="text-sm text-gray-400">Or paste resume text below</div>
+        <input
+          type="file"
+          accept="application/pdf"
+          className="text-sm text-gray-400"
+          onChange={(e) => {
+            setFile(e.target.files[0] || null);
+            if (e.target.files[0]) setResume("");
+          }}
+        />
+
+        {file && (
+          <p className="text-green-400 text-sm mt-2">
+           {file.name}
+          </p>
+        )}
+      </div>
+
+      {/* Divider */}
+      <div className="text-center text-gray-500 text-sm">
+        OR paste resume below
+      </div>
+
+      {/* Resume Text */}
       <textarea
-        className="w-full bg-gray-800 p-3 rounded"
-        placeholder="Paste Resume Here..."
+        className="w-full bg-gray-900 border border-gray-700 p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+        placeholder="Paste resume here..."
         rows={5}
         value={resume}
         onChange={(e) => {
@@ -92,42 +124,44 @@ export default function RecruiterForm() {
         }}
       />
 
-      {/* 🔥 Inputs */}
-      <div className="flex gap-3">
+      {/* Inputs */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input
-          className="bg-gray-800 p-2 rounded w-full"
+          className="bg-gray-900 border border-gray-700 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
           placeholder="GitHub Username"
           value={github}
           onChange={(e) => setGithub(e.target.value)}
         />
+
         <input
-          className="bg-gray-800 p-2 rounded w-full"
+          className="bg-gray-900 border border-gray-700 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
           placeholder="Codeforces Handle"
           value={cf}
           onChange={(e) => setCf(e.target.value)}
         />
       </div>
 
+      {/* Button */}
       <button
         onClick={handleSubmit}
-        className="bg-purple-500 px-4 py-2 rounded hover:bg-purple-600"
+        className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 py-3 rounded-xl font-semibold text-white hover:opacity-90 transition transform hover:scale-[1.02]"
       >
         {loading ? "Analyzing..." : "Analyze Candidate"}
       </button>
 
-      {/* 🔥 Loading */}
+      {/*  Loading */}
       {loading && (
-        <p className="text-gray-400">
-          Fetching data → AI analyzing...
-        </p>
+        <div className="text-center text-gray-400 text-sm animate-pulse">
+          ⏳ Extracting → Fetching → AI analyzing...
+        </div>
       )}
 
-      {/* 🔥 Score */}
+      {/*  Score */}
       {score && <ScoreCard score={score} />}
 
-      {/* 🔥 Result */}
+      {/*  Result */}
       {result && (
-        <div className="bg-gray-800 p-4 rounded whitespace-pre-wrap">
+        <div className="bg-gray-900 border border-gray-700 p-5 rounded-xl whitespace-pre-wrap">
           {result}
         </div>
       )}

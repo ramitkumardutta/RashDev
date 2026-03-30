@@ -6,11 +6,9 @@ import { convertPdfToText } from "../utils/pdfToText.js";
 
 export const getQuestions = async (req, res) => {
   try {
-    console.log("Incoming body:", req.body);
+    const { resumeText, githubUsername, codeforcesHandle } = req.body;
 
-    const { pdfUrl, resumeText, githubUsername, codeforcesHandle } = req.body;
-
-    // 🔴 Validation for usernames
+    // 🔴 Validate profiles
     if (!githubUsername || !codeforcesHandle) {
       return res.status(400).json({
         error: "GitHub and Codeforces are required"
@@ -19,46 +17,42 @@ export const getQuestions = async (req, res) => {
 
     let finalResumeText = "";
 
-    // 🔥 Case 1: Use PDF URL (PDF.co)
-    if (pdfUrl && pdfUrl.trim() !== "") {
+    // CASE 1: PDF uploaded
+    if (req.file) {
       try {
-        finalResumeText = await convertPdfToText(pdfUrl.trim());
-        console.log("PDF text extracted length:", finalResumeText?.length);
+        finalResumeText = await convertPdfToText(req.file.buffer);
       } catch (err) {
-        console.error("PDF conversion error:", err.message);
         return res.status(400).json({
-          error: "Failed to convert PDF. Check URL or API key.",
+          error: "Failed to read PDF",
           details: err.message
         });
       }
     }
 
-    // 🔥 Case 2: Use pasted resume text
+    // CASE 2: Text pasted
     else if (resumeText && resumeText.trim() !== "") {
       finalResumeText = resumeText.trim();
     }
 
-    // 🔴 Final check
+    // Final check
     if (!finalResumeText) {
       return res.status(400).json({
-        error: "Provide either PDF URL or resume text"
+        error: "Upload PDF or paste resume"
       });
     }
 
-    // 🔥 Fetch GitHub data
+    // Fetch data
     const githubData = await getGithubData(githubUsername);
-
-    // 🔥 Fetch Codeforces data
     const cfData = await getCodeforcesData(codeforcesHandle);
 
-    // 🔥 Calculate score
+    // Score
     const score = calculateScore(
       cfData.rating,
       cfData.problemsSolved,
       githubData.repos
     );
 
-    // 🔥 AI analysis
+    //  AI (same flow)
     const result = await generateQuestions({
       resumeText: finalResumeText,
       rating: cfData.rating,
@@ -67,14 +61,13 @@ export const getQuestions = async (req, res) => {
       topLanguage: githubData.topLanguage
     });
 
-    // ✅ Final response
     res.json({
       score,
       result
     });
 
   } catch (err) {
-    console.error("Controller Error:", err);
+    console.error(err);
     res.status(500).json({
       error: "Recruiter AI failed",
       details: err.message

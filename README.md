@@ -1,72 +1,158 @@
 # RashDev
-Verifiable Developer Identity &amp; AI Skill Mentor
+Verifiable Developer Identity & AI Skill Mentor
 
-# RashDev  
-### Proof-Based Developer Evaluation System
-
->  “From resume claims → to verified developer proof.”
+"From resume claims → to verified developer proof."
 
 ---
 
-##  Overview
+## Overview
 
-**RashDev** is an AI-powered platform that helps recruiters evaluate developers by combining:
+RashDev is an AI-powered platform that helps recruiters evaluate developer candidates by combining resume understanding, live coding activity (GitHub + Codeforces), and AI-driven insights to produce verifiable, evidence-based evaluations.
 
-- 📄 Resume understanding  
-- 💻 Real coding activity (GitHub + Codeforces)  
-- 🤖 AI-driven insights  
+## Key Features
 
-Instead of trusting what candidates *say*, RashDev focuses on what they’ve *actually done*.
+- Proof-based scoring: combine resume extraction, GitHub activity, and Codeforces performance into a single score.
+- Resume parsing and link extraction (PDF → text).
+- AI-generated insights & interview questions based on candidate evidence.
+- Backend API that aggregates GitHub/Codeforces data and scores candidates.
 
----
+## Architecture
 
-##  Problem Statement
+1. Resume (PDF/Text) → text extraction
+2. Enrich with GitHub & Codeforces data
+3. Score & compute metrics
+4. AI (LLM) generates insights and interview prompts
 
-Modern hiring faces major challenges:
+Project layout (important files):
 
-- ❌ Candidates exaggerate or fake skills on resumes  
-- ❌ No quick way to verify actual coding ability  
-- ❌ Generic interview questions that don’t reflect real skills  
-- ❌ Time-consuming screening process  
+- Backend entry: [backend/server.js](backend/server.js#L1)
+- Backend routes: [backend/routes/aiRoutes.js](backend/routes/aiRoutes.js#L1) and [backend/routes/recruiterRoutes.js](backend/routes/recruiterRoutes.js#L1)
+- Config helpers: [backend/config/openai.js](backend/config/openai.js#L1)
+- Frontend entry: [frontend/src/main.jsx](frontend/src/main.jsx#L1)
+- Frontend components: [frontend/src/components/AIBox.jsx](frontend/src/components/AIBox.jsx#L1)
 
----
+## Quickstart (Development)
 
-##  Our Solution
+Prerequisites:
 
-RashDev transforms hiring into a **proof-based evaluation system**:
+- Node.js (16+ recommended)
+- npm or yarn
 
-```text
-Resume → Real Data → AI Analysis → Verified Insights
+Clone and run locally:
 
-### system architecture
+```bash
+git clone https://github.com/ramitkumardutta/RashDev.git
+cd RashDev
+```
 
-Resume (PDF/Text)
-                ↓
-        Text Extraction Layer
-                ↓
-     GitHub + Codeforces APIs
-                ↓
-        Scoring Engine (0–100)
-                ↓
-          AI (Groq / LLM)
-                ↓
-     Insights + Interview Questions
+Run backend:
 
-## Getting Started
-
-git clone https://github.com/your-username/rashdev.git
-cd rashdev
-
+```bash
 cd backend
 npm install
-
-PORT=5000
-GROQ_API_KEY=your_api_key_here
-
+# set env vars (example):
+# PORT=5000
+# GROQ_API_KEY=your_groq_key
+# OPENAI_API_KEY=your_openai_key
 npm run dev
+```
 
-#### Open Another Terminal
+Run frontend:
 
+```bash
 cd frontend
 npm install
 npm run dev
+```
+
+## Installation & Setup (detailed)
+
+Follow these steps to install and run both backend and frontend locally.
+
+1) Backend (Windows)
+
+```powershell
+cd backend
+npm install
+# Create a .env file (recommended) or set env vars directly.
+# Example (PowerShell):
+# $env:PORT = "5000"
+# $env:OPENAI_API_KEY = "your_openai_key"
+# To run with npm script:
+npm run dev
+```
+
+If using Command Prompt (cmd.exe):
+
+```cmd
+set PORT=5000
+set OPENAI_API_KEY=your_openai_key
+npm run dev
+```
+
+2) Frontend (Windows)
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Notes:
+
+- Use a `.env` file in `backend/` for persistent environment variables; create `.env` from `.env.example`.
+- If you use GitHub Actions or other CI, ensure secrets are configured in the CI provider rather than checked into the repo.
+
+Notes:
+
+- Backend routes are defined in [backend/routes](backend/routes) and services live in [backend/services](backend/services).
+- The backend uses `pdf-parse` / text-extraction utilities located at [backend/utils/pdfToText.js](backend/utils/pdfToText.js#L1).
+
+## Environment Variables
+
+Common env vars (examples):
+
+- `PORT` — backend listen port (default: 5000)
+- `GROQ_API_KEY` — for Groq/Groq-like integrations (if used)
+- `OPENAI_API_KEY` — OpenAI API key used by AI modules
+
+Add other provider keys as needed in [backend/config](backend/config).
+
+## API & Endpoints
+
+Example backend entrypoint: [backend/server.js](backend/server.js#L1). Routes available under `routes/`.
+
+To explore endpoints, run the backend and visit the API routes (or use Postman/cURL).
+
+## Development Notes
+
+- Frontend is a Vite React app found in `/frontend` using `npm run dev` for local development.
+- Backend runs via `npm run dev` (check `backend/package.json` for the script details).
+- Score calculation logic is implemented in [backend/utils/scoreCalculator.js](backend/utils/scoreCalculator.js#L1).
+
+## Testing
+
+- Unit and integration tests are not included by default; you can add tests with Jest or your preferred framework.
+
+## Contributing
+
+Contributions are welcome. Suggested workflow:
+
+1. Fork the repo
+2. Create a feature branch
+3. Run linters & tests locally
+4. Open a PR with a clear description of changes
+
+## License
+
+This project includes a `LICENSE` file: [LICENSE](LICENSE#L1)
+
+---
+
+If you'd like, I can also:
+
+- add usage examples for the main API routes
+- create a minimal `.env.example` file in `backend/`
+- run a quick repo scan and link any remaining key files into this README
+
+Tell me which of these you'd like next.
