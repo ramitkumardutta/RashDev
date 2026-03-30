@@ -6,7 +6,7 @@ export const getGithubData = async (username) => {
 
   const languageCount = {};
 
-  // 🔹 Count languages
+  // Count languages
   repos.data.forEach(repo => {
     const lang = repo.language;
     if (lang) {
@@ -14,7 +14,7 @@ export const getGithubData = async (username) => {
     }
   });
 
-  // 🔥 ADD YOUR LINE HERE
+  // ADD YOUR LINE HERE
   let topLanguage = null;
 
   if (Object.keys(languageCount).length > 0) {
@@ -28,6 +28,6 @@ export const getGithubData = async (username) => {
     repos: repos.data.length,
     followers: user.data.followers,
     languages: languageCount,
-    topLanguage: topLanguage   // 👈 send to frontend & AI
+    topLanguage: topLanguage 
   };
 };
