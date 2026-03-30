@@ -54,5 +54,3 @@ Check `package.json` for the exact script definitions.
 - If you'd like, I can add a sample `.env.example`, CI workflow, or API documentation (OpenAPI).
 
 ---
-Updated to improve onboarding and developer setup.
-

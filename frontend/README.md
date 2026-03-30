@@ -54,4 +54,3 @@ Check `package.json` in the `frontend` folder for the exact scripts available.
 - If you want, I can add a short development checklist, CI config, or TypeScript migration steps.
 
 ---
-Updated for clarity and developer onboarding.

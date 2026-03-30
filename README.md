@@ -9,12 +9,81 @@ Verifiable Developer Identity & AI Skill Mentor
 
 RashDev is an AI-powered platform that helps recruiters evaluate developer candidates by combining resume understanding, live coding activity (GitHub + Codeforces), and AI-driven insights to produce verifiable, evidence-based evaluations.
 
+## How RashDev Helps
+
+RashDev improves hiring by making it faster, smarter, and more reliable.
+
+### Saves Recruiter Time
+- Automatically fetches GitHub and Codeforces data  
+- Eliminates manual profile checking  
+- Provides instant evaluation  
+
+---
+
+### Data-Driven Hiring
+Instead of guessing skills, recruiters get:
+
+- Problem-solving ability (Codeforces)  
+- Real project experience (GitHub)  
+- Unified performance score  
+
+---
+
+### Detects Skill Mismatch
+
+RashDev compares resume claims with actual coding data.
+
+Example:
+
+Resume: "Strong in Data Structures"
+Reality: Low Codeforces rating
+
 ## Key Features
 
 - Proof-based scoring: combine resume extraction, GitHub activity, and Codeforces performance into a single score.
 - Resume parsing and link extraction (PDF → text).
 - AI-generated insights & interview questions based on candidate evidence.
 - Backend API that aggregates GitHub/Codeforces data and scores candidates.
+
+## How to Use
+### Step 1: Landing Page
+
+When you open RashDev, you will see two main sections:
+
+1. 👨‍🎓 Student Dashboard
+2. 👨‍💼 Recruiter Panel
+
+### 👨‍🎓 Step 2: Student Dashboard
+Enter your:
+- GitHub username
+- Codeforces handle
+
+Click “Analyze Profile”
+You will get:
+- 📊 Coding stats
+- 🧮 Performance score
+- 🤖 AI-generated feedback
+
+### 👨‍💼 Step 3: Recruiter Panel
+Upload resume (PDF) OR paste resume text
+Enter:
+- GitHub username
+- Codeforces handle
+
+Click “Analyze Candidate”
+You will get:
+
+- 📊 Score (0–100)
+- ⚠️ Skill mismatch detection
+- 💡 Strong areas
+- 🤖 AI-generated interview questions
+-  Final Output
+
+#### The system combines:
+
+```text
+Resume + GitHub + Codeforces → Verified Insights
+```
 
 ## Architecture
 
@@ -154,5 +223,3 @@ If you'd like, I can also:
 - add usage examples for the main API routes
 - create a minimal `.env.example` file in `backend/`
 - run a quick repo scan and link any remaining key files into this README
-
-Tell me which of these you'd like next.
